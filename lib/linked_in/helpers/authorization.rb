@@ -42,7 +42,13 @@ module LinkedIn
             :token_url         => full_oauth_url_for(:token,     :api_host),
             :authorize_url     => full_oauth_url_for(:authorize, :auth_host),
             :site              => @consumer_options[:site] || @consumer_options[:api_host] || DEFAULT_OAUTH_OPTIONS[:api_host],
-            :raise_errors      => false
+            :raise_errors      => false,
+            :connection_opts   => {
+              :request => {
+                :open_timeout => 4,   # opening a connection
+                :timeout => 15        # waiting for response
+              }
+            }
           }
         end
 
