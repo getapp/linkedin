@@ -53,7 +53,8 @@ module LinkedIn
           when 404
             raise LinkedIn::Errors::NotFoundError, "(#{response.status}): #{response.message}"
           when 500
-            raise LinkedIn::Errors::InformLinkedInError, "LinkedIn had an internal error. Please let them know in the forum. (#{response.status}): #{response.message}"
+            data = Mash.from_json(response.body)
+            raise LinkedIn::Errors::InformLinkedInError, "LinkedIn had an internal error. Please let them know in the forum. (#{data.status}): #{data.message}"
           when 502..503
             raise LinkedIn::Errors::UnavailableError, "(#{response.status}): #{response.message}"
           end
